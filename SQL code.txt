@@ -1,0 +1,82 @@
+CREATE TABLE Faculty (
+  id INT NOT NULL,
+  faculty_name VARCHAR
+ )
+
+CREATE TABLE Persons (
+  id INT NOT NULL,
+  first_name VARCHAR,
+  last_name VARCHAR,
+  person_id INT,
+  mail VARCHAR,
+  adress VARCHAR,
+  birth_date DATE,
+  gender VARCHAR
+)
+
+CREATE TABLE Lecture (
+  id INT NOT NULL,
+  iban VARCHAR,
+  rank VARCHAR,
+  Persons_id INT,
+  Faculty_id INT
+)
+
+CREATE TABLE Student (
+  id INT NOT NULL,
+  Persons_id INT,
+  Additional_info_id INT,
+  Faculty_id INT
+)
+
+CREATE TABLE Additional_info (
+  id INT NOT NULL,
+  second_adress VARCHAR,
+  flat_number INT
+)
+
+INSERT INTO Additional_info(id,second_adress,flat_number)
+VALUES (1,"Barcelona,Rambla de Catalunya",22)
+  
+INSERT INTO Faculty(id,faculty_name)
+VALUES (1,"Mathematical sciances")
+
+INSERT INTO Faculty(id,faculty_name)
+VALUES (2,"Computer sciances")
+  
+INSERT INTO Faculty(id,faculty_name)
+VALUES (3,"Economical sciences")
+
+INSERT INTO Lecture(id,iban,rank,Persons_id,Faculty_id)
+VALUES (1,"GE115BG00000001234567","Academician",2,3)
+
+INSERT INTO Student(id,Persons_id,Faculty_id)
+VALUES (2,3,1)
+
+INSERT INTO Student(id,Persons_id, Additional_info_id, Faculty_id)
+VALUES (1,1,1,3)
+
+INSERT INTO Persons(id, first_name, last_name, person_id, mail, adress, birth_date, gender)
+VALUES (1,"Kakha", "Shulaia", 1234567891011, "kakha@gmail.com", "Tbilisi", "1994-10-09","male")
+
+INSERT INTO Persons(id, first_name, last_name, person_id, mail, adress, birth_date, gender)
+VALUES (2,"Israel", "Adesanya", 1110987654321, "Ade@gmail.com", "New_Zealand", "1989-07-22","male")
+
+INSERT INTO Persons(id, first_name, last_name, person_id, mail, adress, birth_date, gender)
+VALUES (3,"Eva", "Green", 123987456753, "Green@gmail.com", "France", "1980-07-03","female")
+
+SELECT Student.id, Persons.first_name, Persons.last_name, Persons.person_id, Persons.mail, Persons.adress, Persons.birth_date, Persons.gender, Faculty.faculty_name, Additional_info.second_adress, Additional_info.flat_number 
+FROM Student 
+LEFT JOIN Persons
+ON Student.Persons_id = Persons.id
+LEFT JOIN Additional_info
+ON Student.Additional_info_id = Additional_info.id
+LEFT JOIN Faculty
+ON Student.Faculty_id = Faculty.id
+
+SELECT Lecture.id, Persons.first_name, Persons.last_name, Persons.person_id, Persons.mail, Persons.adress, Persons.birth_date, Persons.gender,Lecture.iban, Lecture.rank, Faculty.faculty_name
+FROM Lecture 
+LEFT JOIN Persons
+ON Lecture.Persons_id = Persons.id
+LEFT JOIN Faculty
+ON Lecture.Faculty_id = Faculty.id
